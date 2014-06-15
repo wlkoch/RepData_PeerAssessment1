@@ -52,6 +52,9 @@ Daily_Total_Steps <- f_totalSteps(mainData_Activity)
 
 # Create histogram with frequency of daily total steps
 
+
+par(bg = 'white') # or for a overly subtle grey par(bg = '#FDFDFD')
+
 hist(	Daily_Total_Steps$totSteps, 
 	main = "Histogram of Daily Total Steps",
 	xlab = "Daily Total Steps",
@@ -113,6 +116,7 @@ Interval_Mean_Steps <- f_interval(mainData_Activity)
 
 # Plot the mean steps-per-interval data  
 
+par(bg = 'white')
 plot(	Interval_Mean_Steps$interval, 
 	Interval_Mean_Steps$meanSteps, 
 	main = "Mean Steps-per-interval",
@@ -175,6 +179,7 @@ Daily_Total_Steps <- f_totalSteps(imputeData_Activity)
 
 # Re-create histogram from imputed data with frequency of daily total steps
 
+par(bg = 'white')
 hist(	Daily_Total_Steps$totSteps, 
 	main = "Histogram of Daily Total Steps (Imputed data)",
 	xlab = "Daily Total Steps",
@@ -211,6 +216,7 @@ cat("(imputed data) Median Total Steps per day: ", median_output, "\n")
 
 Interval_Mean_Steps <- f_interval(imputeData_Activity)
 
+par(bg = 'white')
 plot(	Interval_Mean_Steps$interval, 
 	Interval_Mean_Steps$meanSteps, 
 	main = "Mean Steps-per-interval  (Imputed data)",
@@ -301,6 +307,7 @@ library(lattice)
 ```
 
 ```r
+par(bg = 'white')
 xyplot(meanSteps ~ interval | wkend, 
         data = weeklyData, 
 	layout = c(1,2),
