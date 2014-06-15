@@ -17,19 +17,18 @@ The assignment consists of code which:
 
 ## Loading and preprocessing the data
 
-```{r Set working directory, echo=TRUE}
 
+```r
 # Set working directory and read in data
 setwd("C:/Research/Coursera/DataScientist_Series/Class_04_ReproducibleResearch/PeerAssessment_1/")
 
 mainData_Activity <- read.csv("repdata_data_activity_uncompressed/activity.csv")
-
 ```
 
 ## What is the mean total number of steps taken per day?
 
-```{r Mean Total Steps code, echo=TRUE}
 
+```r
 # Function to calculate total number of steps taken per day
 
 f_totalSteps <- function(dframe) { 
@@ -58,8 +57,11 @@ hist(	Daily_Total_Steps$totSteps,
 	xlab = "Daily Total Steps",
 	breaks = 8, 
 	col = "green")
+```
 
+![plot of chunk Mean Total Steps code](figure/Mean Total Steps code.png) 
 
+```r
 # From the data frame created with Daily total steps data, calculate and print to the screen
 # The mean and median total daily steps
 
@@ -67,15 +69,26 @@ mean_output <- mean(Daily_Total_Steps$totSteps, na.rm = TRUE)
 median_output <- median(Daily_Total_Steps$totSteps, na.rm = TRUE)
 
 cat("Mean Total Steps per day: ",  mean_output, "\n")
-cat("Median Total Steps per day: ", median_output, "\n")
+```
 
+```
+## Mean Total Steps per day:  9354
+```
+
+```r
+cat("Median Total Steps per day: ", median_output, "\n")
+```
+
+```
+## Median Total Steps per day:  10395
 ```
 As can be seen in the histogram, the distribution is bi-modal with two peaks at close to 0 and a little above 10,000.  These two peaks are probably during sleeping time periods and during the day.  Also, the mean total number of steps (9354.23) is lower than the median total daily steps (10395) indicating a slightly left-skewed distribution.
 
 
 ## What is the average daily activity pattern?
 
-```{r Average Daily Activity Pattern code, echo=TRUE}
+
+```r
 # function to calculate the mean number of steps for each 5-minute time interval
 # across all the days covered by the data. Each day has 12 * 24 intervals - 288
 
@@ -107,14 +120,28 @@ plot(	Interval_Mean_Steps$interval,
 	ylab = "Mean Steps",
 	type = "l", 
 	col = "darkblue")
+```
 
+![plot of chunk Average Daily Activity Pattern code](figure/Average Daily Activity Pattern code.png) 
+
+```r
 # calculate and print out the Time-interval with the max mean steps
 max_steps <- max(Interval_Mean_Steps$meanSteps)
 max_interval <- Interval_Mean_Steps$interval[Interval_Mean_Steps$meanSteps == max(Interval_Mean_Steps$meanSteps)]
 
 cat("Time-interval with maximum mean steps, interval ", max_interval, "\n")
-cat("With that interval having a mean of: ", max_steps, "steps\n") 
+```
 
+```
+## Time-interval with maximum mean steps, interval  835
+```
+
+```r
+cat("With that interval having a mean of: ", max_steps, "steps\n") 
+```
+
+```
+## With that interval having a mean of:  206.2 steps
 ```
 
 The results of the plot indicate the maximum average number of steps is at interval 835 with an average number of steps equal to 206.  
@@ -125,7 +152,8 @@ The results of the plot indicate the maximum average number of steps is at inter
 Some of the steps variable data are missing.  As a result a new data set is constructed from the original data with all the missing values filled in with the average number of steps for a given time interval.  Graphs and caculations are then repeated using the imputed data set.
 
 
-```{r Creating and using imputed data, echo=TRUE}
+
+```r
 # Construct a new data set with missing values imputed from the mean number of steps
 # for a particular interval
 
@@ -152,8 +180,11 @@ hist(	Daily_Total_Steps$totSteps,
 	xlab = "Daily Total Steps",
 	breaks = 8, 
 	col = "blue")
+```
 
+![plot of chunk Creating and using imputed data](figure/Creating and using imputed data1.png) 
 
+```r
 # From the data frame created with Daily total steps data, calculate and print to the screen
 # The mean and median total daily steps
 
@@ -161,11 +192,21 @@ mean_output <- mean(Daily_Total_Steps$totSteps, na.rm = TRUE)
 median_output <- median(Daily_Total_Steps$totSteps, na.rm = TRUE)
 
 cat("(imputed data) Mean Total Steps per day: ",  mean_output, "\n")
+```
+
+```
+## (imputed data) Mean Total Steps per day:  10766
+```
+
+```r
 cat("(imputed data) Median Total Steps per day: ", median_output, "\n")
+```
 
+```
+## (imputed data) Median Total Steps per day:  10766
+```
 
-
-
+```r
 ## re-do plot and re-calculate the Time-interval with the max mean step with imputed data
 
 Interval_Mean_Steps <- f_interval(imputeData_Activity)
@@ -177,15 +218,29 @@ plot(	Interval_Mean_Steps$interval,
 	ylab = "Mean Steps",
 	type = "l", 
 	col = "darkblue")
+```
 
+![plot of chunk Creating and using imputed data](figure/Creating and using imputed data2.png) 
+
+```r
 # re-calculate and print out the Time-interval with the max mean steps
 
 max_steps <- max(Interval_Mean_Steps$meanSteps)
 max_interval <- Interval_Mean_Steps$interval[Interval_Mean_Steps$meanSteps == max(Interval_Mean_Steps$meanSteps)]
 
 cat("(imputed data) Time-interval with maximum mean steps, interval ", max_interval, "\n")
-cat("(imputed data) With that interval having a mean of: ", max_steps, "steps\n") 
+```
 
+```
+## (imputed data) Time-interval with maximum mean steps, interval  835
+```
+
+```r
+cat("(imputed data) With that interval having a mean of: ", max_steps, "steps\n") 
+```
+
+```
+## (imputed data) With that interval having a mean of:  206.2 steps
 ```
 
 The histogram of daily total steps indicates a uni-modal normal distribution with both the mean and median values the same at 10766.19 steps per day. This suggests that the missing data were from intervals with a relatively larger number of steps.
@@ -198,8 +253,8 @@ Finally an analysis was performed to look into whether weekday activity patterns
 
 Unlike the previous plots and histgrams created with the plotting functions in the base R package, the plots of weekday and weekend data, 
 
-```{r Weekday-Weekend comparison code, echo=TRUE}
 
+```r
 # Using the date variable separate the imputed data set into weekday and weekend subsets
 
 nimputeData_Activity <- imputeData_Activity
@@ -239,20 +294,22 @@ weeklyData["wkend"] <- cut(weeklyData$weekend, 2, c("weekday", "weekend"))
 # load the lattice package and plot the result
 
 library(lattice)
+```
 
+```
+## Warning: package 'lattice' was built under R version 3.0.3
+```
+
+```r
 xyplot(meanSteps ~ interval | wkend, 
         data = weeklyData, 
 	layout = c(1,2),
 	xlab = "Time interval",
 	ylab = "Average number of steps",
 	type = "l")
-
-
-
-
-
-
 ```
+
+![plot of chunk Weekday-Weekend comparison code](figure/Weekday-Weekend comparison code.png) 
 
 
 The resulting graph indicates there are much different activity patterns on weekdays compared to weekends as would be expected. Weekend activity averages peak several times around 150 steps per interval over a broad range of time intervals. Weekdays, however, have one major peak at around 800 for the time interval at over 200 steps per activity time interval.
